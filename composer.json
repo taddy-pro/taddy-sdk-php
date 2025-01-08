@@ -1,0 +1,23 @@
+{
+    "name": "taddy/taddy-sdk",
+    "version": "0.1.0",
+    "description": "Taddy PHP SDK",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Taddy\\Sdk\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.3",
+        "guzzlehttp/guzzle": "^7.9",
+        "symfony/serializer": "^7.2",
+        "psr/log": "^3.0",
+        "symfony/property-access": "^7.2",
+        "yabx/telegram": "^8.1"
+    },
+    "require-dev": {
+        "monolog/monolog": "^3.8"
+    }
+}
