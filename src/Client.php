@@ -62,17 +62,17 @@ class Client {
             $res = $this->client->request($method, $path, $options);
             $code = $res->getStatusCode();
             $body = $res->getBody()->getContents();
-            //print_r($body);
+            print_r($body);
             $json = json_validate($body) ? json_decode($body, true) : null;
             $this->logger->debug('Response (' . $code. '): ' . $body);
             if ($code >= 200 && $code < 300) {
                 return $json['result'] ?? null;
             } elseif ($error = $json['error'] ?? false) {
                 $this->logger->error('Error: ' . $error);
-                throw new Exception('Teddy: ' . $error);
+                throw new Exception('Taddy: ' . $error);
             } else {
                 $this->logger->error('Unexpected error');
-                throw new Exception('Teddy: Unexpected error ' . $code . ': ' . substr($body, 0, 100));
+                throw new Exception('Taddy: Unexpected error ' . $code . ': ' . substr($body, 0, 100));
             }
         } catch (ConnectException $e) {
             $this->logger->critical($e->getMessage());

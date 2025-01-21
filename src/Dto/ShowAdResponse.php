@@ -2,10 +2,10 @@
 
 namespace Taddy\Sdk\Dto;
 
-final class ShowCreativeResponse extends AbstractDto {
+final class ShowAdResponse extends AbstractDto {
 
     public function __construct(
-        public Creative $creative,
+        public Ad     $ad,
         public string $link,
     ) {}
 

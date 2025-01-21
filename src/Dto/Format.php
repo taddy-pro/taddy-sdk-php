@@ -2,7 +2,7 @@
 
 namespace Taddy\Sdk\Dto;
 
-enum CreativeFormat: string {
+enum Format: string {
 
     case BotAd = 'bot-ad';
 
