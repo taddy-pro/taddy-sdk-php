@@ -64,13 +64,39 @@ class Ads {
 
             if($media = $ad->ad->media) {
                 $this->logger->debug("$tag: Sending Ad with media...");
-                $msg = $this->telegram->sendPhoto(
-                    chatId: $user->id,
-                    photo: $media->url,
-                    caption: $text,
-                    parseMode: 'html',
-                    replyMarkup: $buttons
-                );
+                if(str_starts_with($media->mime, 'image')) {
+                    $msg = $this->telegram->sendPhoto(
+                        chatId: $user->id,
+                        photo: $media->url,
+                        caption: $text,
+                        parseMode: 'html',
+                        replyMarkup: $buttons
+                    );
+                } elseif (str_starts_with($media->mime, 'video')) {
+                    $msg = $this->telegram->sendVideo(
+                        chatId: $user->id,
+                        video: $media->url,
+                        parseMode: 'html',
+                        caption: $text,
+                        replyMarkup: $buttons
+                    );
+                } elseif (str_starts_with($media->mime, 'audio')) {
+                    $msg = $this->telegram->sendAudio(
+                        chatId: $user->id,
+                        audio: $media->url,
+                        caption: $text,
+                        parseMode: 'html',
+                        replyMarkup: $buttons
+                    );
+                } else {
+                    $msg = $this->telegram->sendDocument(
+                        chatId: $user->id,
+                        document: $media->url,
+                        caption: $text,
+                        parseMode: 'html',
+                        replyMarkup: $buttons
+                    );
+                }
             } elseif ($text) {
                 $this->logger->debug("$tag: Sending text Ad...");
                 $msg = $this->telegram->sendMessage(
@@ -105,7 +131,8 @@ class Ads {
         $res = $this->client->request('GET', '/ads/show', [
             'type' => 'ads',
             'pubId' => $this->pubId,
-            'user' => $this->client->toArray($user)
+            'user' => $this->client->toArray($user),
+            'fields' => ['asset:mime']
         ]);
         return $res ? $this->client->toObject($res, ShowAdResponse::class) : null;
     }
