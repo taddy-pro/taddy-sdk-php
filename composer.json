@@ -1,6 +1,5 @@
 {
     "name": "taddy/taddy-sdk",
-    "version": "0.1.0",
     "description": "Taddy PHP SDK",
     "type": "library",
     "autoload": {
