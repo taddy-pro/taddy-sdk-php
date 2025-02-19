@@ -2,6 +2,7 @@
     "name": "taddy/taddy-sdk",
     "description": "Taddy PHP SDK",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Taddy\\Sdk\\": "src/"
