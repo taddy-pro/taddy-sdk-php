@@ -29,13 +29,13 @@ class Ads {
         $this->logger = $logger;
     }
 
-    public function show(User $user): void {
+    public function show(User $user): bool {
         try {
             $tag = "[$user->id]";
             $this->logger->debug("$tag: Show Ad Request...");
             if(!$ad = $this->getAd($user)) {
                 $this->logger->debug("$tag: Nothing to show");
-                return;
+                return false;
             }
 
             if($preText = $ad->ad->data['preText'] ?? false) {
@@ -107,7 +107,7 @@ class Ads {
                     replyMarkup: $buttons
                 );
             } else {
-                return;
+                return false;
             }
 
             $showTime = $ad->ad->data['showTime'] ?? 15;
@@ -122,8 +122,10 @@ class Ads {
             $this->logger->debug("$tag: Deleting Ad...");
             $this->telegram->deleteMessage($user->id, $msg->getMessageId());
             $this->logger->debug("$tag: Done!");
+            return true;
         } catch (Throwable $e) {
             $this->logger->error("$tag: {$e->getMessage()}");
+            return false;
         }
     }
 
