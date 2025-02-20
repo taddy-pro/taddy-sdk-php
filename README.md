@@ -62,12 +62,21 @@ $exchange->impressionsEvent(
     items: $feed, // showed items array    
 );
 ```
+#### Check exchange
+You track if exchange completed using webhooks or calling this method
+```php
+// send impressions event manually (after successful show)
+$exchange->check(
+    user: $user, // User DTO or user id
+    item: $item, // ExchangeFeedItem DTO or item id   
+);
+```
 ### Send custom events (optional)
 ```php
 // send custom event
 $exchange->customEvent(
     event: 'custom1', // custom event: custom1 ... custom4 
-    user: $user, // User DTO
+    user: $user, // User DTO or user id
     value: 1.23, // Value (optional)
     currency: Currency::USD, // value currency (optional)
     once: false, // one-time event registration
@@ -75,5 +84,5 @@ $exchange->customEvent(
 ```
 
 ### See also
-- [Taddy Exchange Docs](https://dent-cacao-26b.notion.site/SDK-TMA-1982599ec91e800d9dd8c01cb6746132)
+- [Taddy Exchange Docs](https://dent-cacao-26b.notion.site/SDK-1a02599ec91e800ba6e5d4ebd027b620)
 - [Taddy WEB SDK](https://www.npmjs.com/package/taddy-sdk)

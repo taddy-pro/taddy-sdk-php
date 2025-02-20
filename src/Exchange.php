@@ -38,6 +38,7 @@ class Exchange {
                 'autoImpressions' => $autoImpressions,
                 'origin' => 'server',
             ]);
+            $this->logger->debug('Feed', $data);
             return $this->client->toObjects($data, ExchangeFeedItem::class);
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage());
@@ -89,6 +90,23 @@ class Exchange {
             ]);
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage());
+        }
+    }
+
+    public function check(User|int $user, ExchangeFeedItem|int $item): bool {
+        try {
+            $this->logger->debug('Check exchange...');
+            $result = (bool)$this->client->request('POST', '/exchange/check', [
+                'pubId' => $this->pubId,
+                'userId' => is_int($user) ? $user : $user->id,
+                'exchangeId' => is_int($item) ? $item : $item->id,
+                'origin' => 'server',
+            ]);
+            $this->logger->debug('Result: ' . ($result ? 'SUCCESS' : 'PENDING'));
+            return $result;
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage());
+            return false;
         }
     }
 
