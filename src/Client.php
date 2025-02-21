@@ -62,8 +62,8 @@ class Client {
             $res = $this->client->request($method, $path, $options);
             $code = $res->getStatusCode();
             $body = $res->getBody()->getContents();
-            print_r($body);
-            $json = json_validate($body) ? json_decode($body, true) : null;
+            $json = json_decode($body, true);
+            if(json_last_error()) $json = null;
             $this->logger->debug('Response (' . $code. '): ' . $body);
             if ($code >= 200 && $code < 300) {
                 return $json['result'] ?? null;
