@@ -9,6 +9,7 @@ final class ExchangeFeedItem extends AbstractDto {
         public string $title,
         public string $description,
         public string $image,
+        public ResourceType $type,
         public string $link,
     ) {}
 
