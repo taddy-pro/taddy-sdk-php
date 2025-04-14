@@ -26,7 +26,7 @@ class Taddy {
 
     public function __construct(string $pubId, ?TaddyOptions $options = null) {
         $this->pubId = $pubId;
-        $options ??= new TaddyOptions('https://api.taddy.pro');
+        $options ??= new TaddyOptions;
         $this->options = $options;
         $this->client = new HttpClient([
             'base_uri' => $this->options->getApiUrl(),
