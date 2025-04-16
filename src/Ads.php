@@ -10,6 +10,7 @@ use Yabx\Telegram\BotApi;
 use Yabx\Telegram\Objects\InlineKeyboardButton;
 use Yabx\Telegram\Objects\InlineKeyboardMarkup;
 use Yabx\Telegram\Objects\LinkPreviewOptions;
+use Yabx\Telegram\Objects\Message;
 use Yabx\Telegram\Objects\WebAppInfo;
 
 class Ads {
@@ -47,7 +48,7 @@ class Ads {
         ]);
     }
 
-    public function show(Ad $ad, User $user): bool {
+    public function show(Ad $ad, User $user, bool $deleteMessage = true): ?Message {
         try {
             $tag = "[$user->id / $ad->id]";
             $this->logger->debug("$tag: Show Ad...");
@@ -99,15 +100,16 @@ class Ads {
             $this->logger->debug("$tag: Waiting for $showTime sec...");
             sleep($showTime);
 
-            $this->logger->debug("$tag: Deleting Ad...");
-            $this->telegram->deleteMessage($user->id, $msg->getMessageId());
+            if($deleteMessage) {
+                $this->logger->debug("$tag: Deleting Ad...");
+                $this->telegram->deleteMessage($user->id, $msg->getMessageId());
+                return null;
+            }
+            return $msg;
 
-            $this->logger->debug("$tag: Done!");
-
-            return true;
         } catch (Throwable $e) {
             $this->logger->error("$tag:  {$e->getMessage()}");
-            return false;
+            return null;
         }
     }
 
