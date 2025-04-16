@@ -54,7 +54,7 @@ class Ads {
             $this->logger->debug("$tag: Show Ad...");
 
             $title = '<b>' . $ad->title . '</b>';
-            if ($text = $ad->ad->text ?? $ad->ad->description ?? null) {
+            if ($text = ($ad->ad->text ?? $ad->ad->description ?? null)) {
                 $text = str_replace('{link}', $ad->link, $text);
             }
             $text = trim($title . "\n\n" . $text);
@@ -92,7 +92,7 @@ class Ads {
                 );
             }
 
-            $showTime = 15;
+            $showTime = 20;
 
             $this->logger->debug("$tag: Send impressions...");
             $this->impressions($user, $ad->id);
