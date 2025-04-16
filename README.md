@@ -40,7 +40,13 @@ $ads = $taddy->ads();
 
 #### Automatically show ads
 ```php
-$ads->show($user);
+// Retrieve ad for $user
+$ad = $ads->getAd($user);
+
+// Ad exists, showtime!
+if ($ad) {
+    $ads->show($ad, $user);
+}
 ```
 
 #### Manual show ads
@@ -49,7 +55,7 @@ $ads->show($user);
 $ad = $ads->getAd($user);
 
 // Ad exists, showtime!
-if($ad) {
+if ($ad) {
     // show $ad
     myShowAdFuncation($ad); // your custom method
     
