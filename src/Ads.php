@@ -47,14 +47,10 @@ class Ads {
         ]);
     }
 
-    public function show(User $user): bool {
+    public function show(Ad $ad, User $user): bool {
         try {
-            $tag = "[$user->id]";
-            $this->logger->debug("$tag: Show Ad Request...");
-            if (!$ad = $this->getAd($user)) {
-                $this->logger->debug("$tag: Nothing to show");
-                return false;
-            }
+            $tag = "[$user->id / $ad->id]";
+            $this->logger->debug("$tag: Show Ad...");
 
             $title = '<b>' . $ad->title . '</b>';
             if ($text = $ad->ad->text ?? $ad->ad->description ?? null) {
