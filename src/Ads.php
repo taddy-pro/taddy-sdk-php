@@ -56,29 +56,16 @@ class Ads {
                 return false;
             }
 
-            //if($preText = $ad->ad->data['preText'] ?? false) {
-            //    $preShowTime = $ad->ad->data['preShowTime'] ?? 3;
-            //    $this->logger->debug("$tag: Sending Pre-text...");
-            //    $preMsg = $this->telegram->sendMessage($user->id, $preText, parseMode: 'html');
-            //    $this->logger->debug("$tag: Waiting for $preShowTime sec...");
-            //    sleep($preShowTime);
-            //} else {
-            //    $this->logger->debug("$tag: Pre-text not set");
-            //}
-
-            if ($text = $ad->ad->text ?? $ad->ad->description ?? $ad->ad->title ?? '') {
+            $title = '<b>' . $ad->title . '</b>';
+            if ($text = $ad->ad->text ?? $ad->ad->description ?? null) {
                 $text = str_replace('{link}', $ad->link, $text);
             }
+            $text = trim($title . "\n\n" . $text);
 
-            $buttonText = $ad->button ?: 'Open';
-
-            //if(($ad->ad->data['buttonType'] ?? false) === 'web-app') {
+            $buttonText = $ad->button ?: 'Go!';
             $button = new InlineKeyboardButton($buttonText, webApp: new WebAppInfo($ad->link));
-            //} else {
-            //    $button = new InlineKeyboardButton($buttonText, url: $ad->link);
-            //}
-
             $buttons = new InlineKeyboardMarkup([[$button]]);
+
             if ($image = $ad->image) {
                 $this->logger->debug("$tag: Sending Ad with image...");
                 $msg = $this->telegram->sendPhoto(
@@ -97,7 +84,7 @@ class Ads {
                     caption: $text,
                     replyMarkup: $buttons
                 );
-            } elseif ($text) {
+            } else {
                 $this->logger->debug("$tag: Sending text Ad...");
                 $msg = $this->telegram->sendMessage(
                     chatId: $user->id,
@@ -106,8 +93,6 @@ class Ads {
                     linkPreviewOptions: new LinkPreviewOptions(isDisabled: true),
                     replyMarkup: $buttons
                 );
-            } else {
-                return false;
             }
 
             $showTime = 15;
