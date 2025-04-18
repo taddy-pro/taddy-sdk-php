@@ -33,7 +33,7 @@ class TaddyOptions {
         return $this->token;
     }
 
-    public function getLogger(): NullLogger|LoggerInterface {
+    public function getLogger(): LoggerInterface {
         return $this->logger;
     }
 
