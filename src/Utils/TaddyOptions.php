@@ -13,7 +13,7 @@ class TaddyOptions {
     protected ?string $token;
     protected LoggerInterface|NullLogger $logger;
 
-    public function __construct(?string $apiUrl = null, ?string $botApiUrl = null, ?string $token = null, bool $debug = false, LoggerInterface $logger = null) {
+    public function __construct(?string $apiUrl = null, ?string $botApiUrl = null, ?string $token = null, bool $debug = false, ?LoggerInterface $logger = null) {
         $this->apiUrl = $apiUrl ?? 'https://api.taddy.pro';
         $this->token = $token;
         $this->debug = $debug;
