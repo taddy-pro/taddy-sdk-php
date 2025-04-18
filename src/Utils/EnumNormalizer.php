@@ -9,19 +9,19 @@ use UnitEnum;
 
 class EnumNormalizer implements NormalizerInterface, DenormalizerInterface {
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool {
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool {
         return $data instanceof UnitEnum;
     }
 
-    public function normalize(mixed $data, string $format = null, array $context = []): array|ArrayObject|bool|float|int|null|string {
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|ArrayObject|bool|float|int|null|string {
         return $data->value;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool {
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool {
         return is_subclass_of($type, UnitEnum::class);
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed {
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed {
         return call_user_func([$type, 'from'], $data);
     }
 
