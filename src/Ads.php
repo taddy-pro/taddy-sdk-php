@@ -48,7 +48,7 @@ class Ads {
         ]);
     }
 
-    public function show(Ad $ad, User $user, bool $deleteMessage = true): ?Message {
+    public function show(Ad $ad, User $user, bool $deleteMessage = true, int $showTime = 20): ?Message {
         try {
             $tag = "[$user->id / $ad->id]";
             $this->logger->debug("$tag: Show Ad...");
@@ -92,13 +92,11 @@ class Ads {
                 );
             }
 
-            $showTime = 20;
-
             $this->logger->debug("$tag: Send impressions...");
             $this->impressions($user, $ad->id);
 
             $this->logger->debug("$tag: Waiting for $showTime sec...");
-            sleep($showTime);
+            if($showTime) sleep($showTime);
 
             if($deleteMessage) {
                 $this->logger->debug("$tag: Deleting Ad...");
