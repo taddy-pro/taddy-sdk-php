@@ -11,10 +11,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.2",
-        "guzzlehttp/guzzle": "^7.9",
-        "symfony/serializer": "^7.2",
+        "guzzlehttp/guzzle": "^7",
+        "symfony/serializer": "^7",
         "psr/log": "^3.0",
-        "symfony/property-access": "^7.2",
+        "symfony/property-access": "^7",
         "yabx/telegram": "^8.1"
     },
     "require-dev": {
