@@ -47,7 +47,7 @@ class Exchange {
     public function impressions(User $user, array $items): void {
         try {
             $this->logger->debug('Sending impressions event...');
-            $items = array_map(fn(int|ExchangeFeedItem $item) => is_int($item) ? $item : $item->id, $items);
+            $items = array_map(fn(int|string|ExchangeFeedItem $item) => is_scalar($item) ? $item : $item->id, $items);
             $this->taddy->request('POST', '/v1/exchange/impressions', [
                 'pubId' => $this->taddy->getPubId(),
                 'user' => $this->taddy->toArray($user),
@@ -59,14 +59,14 @@ class Exchange {
         }
     }
 
-    public function check(User $user, ExchangeFeedItem|int $item): bool {
+    public function check(User $user, ExchangeFeedItem|int|string $item): bool {
         try {
             $this->logger->debug('Check exchange...');
             $result = (bool)$this->taddy->request('POST', '/v1/exchange/check', [
                 'pubId' => $this->taddy->getPubId(),
                 'user' => $this->taddy->toArray($user),
                 'origin' => 'server',
-                'exchangeId' => is_int($item) ? $item : $item->id,
+                'exchangeId' => is_scalar($item) ? $item : $item->id,
             ]);
             $this->logger->debug('Result: ' . ($result ? 'SUCCESS' : 'PENDING'));
             return $result;
